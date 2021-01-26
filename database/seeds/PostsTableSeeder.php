@@ -13,15 +13,24 @@ class PostsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i=0; $i < 99; $i++) {
+        for ($i=0; $i < 10; $i++) {
             $new_post = new Post();
-            $new_post->author = $faker->name();
-            $new_post->title = $faker->words(3,true);
-            $new_post->subtitle = $faker->sentence();
-            $new_post->images = $faker->imageUrl(360, 360, 'animals', true);
+            $new_post->title = $faker->sentence();
             $new_post->content = $faker->text(500);
-            $new_post->category = $faker->word();
-            $new_post->date = $faker->date();
+            // slug = titolo con - al posto degli spazi
+            $slug = Str::slug($new_post->title);
+            // salvo una copia da utilizzare nel ciclo while
+            $slug_base = $slug;
+            // creo un contatore
+            $counter = 1;
+            // recupero il post corrente ed il suo slug lo ciclo e verifico che sia unico nel database
+            $post_current = Post::where('slug', $slug)->first();
+            while($post_current) {
+                $slug = $slug_base .'-' .$counter;
+                $counter++;
+                $post_current = Post::where('slug', $slug)->first();
+            }
+            $new_post->slug = $slug;
             $new_post->save();
         };
     }
