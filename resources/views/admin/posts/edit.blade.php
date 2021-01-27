@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
-            <h1>Crea nuovo post</h1>
+            <h1>Modifica post</h1>
             <form method="POST" action="{{ route('admin.posts.update', ['post' => $post->id]) }}">
                 @csrf
                 @method('PUT')
