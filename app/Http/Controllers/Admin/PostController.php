@@ -19,6 +19,7 @@ class PostController extends Controller
         $data = [
             'posts' => Post::all()
         ];
+
         return view('admin.posts.index', $data);
     }
 
@@ -75,9 +76,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        if(!$post) {
+            abort(404);
+        }
+
+        $data = [
+            'post' => $post
+        ];
+
+        return view('admin.posts.edit', $data);
     }
 
     /**
@@ -87,9 +96,25 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->all();
+        // controllo che il titolo ricevuto dal form sia diverso dal vecchio titolo
+        if($form_data['title'] != $post->title) {
+            $slug = Str::slug($new_post->title);
+            $slug_base = $slug;
+            $counter = 1;
+            $post_current = Post::where('slug', $slug)->first();
+            while($post_current) {
+                $slug = $slug_base .'-' .$counter;
+                $counter++;
+                $post_current = Post::where('slug', $slug)->first();
+            }
+            $new_post->slug = $slug;
+        }
+        $post->update($data);
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**
