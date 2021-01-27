@@ -26,12 +26,19 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->slug }}</td>
                             <td>
-                                <a class="btn btn-info" href="{{ route('admin.posts.show', ['post' => $post->id]) }}">
+                                <a class="btn btn-info btn-sm" href="{{ route('admin.posts.show', ['post' => $post->id]) }}">
                                     Visualizza
                                 </a>
-                                <a class="btn btn-warning" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}">
+                                <a class="btn btn-warning btn-sm" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}">
                                     Modifica
                                 </a>
+                                <form class="d-inline" action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Elimina
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

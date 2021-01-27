@@ -21,6 +21,13 @@
             <div>
                 <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}"
                 class="btn btn-warning">Modifica</a>
+                <form class="d-inline" action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        Elimina
+                    </button>
+                </form>
             </div>
         </div>
     </div>
