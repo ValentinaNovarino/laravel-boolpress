@@ -14,19 +14,21 @@
                 <div class="form-group">
                     <label>Testo post</label>
                     <input type="text" name="content" class="form-control" placeholder="Scrivi qualcosa qui...">
-                {{-- </div>
-                    <select name="">
-                        <option>Seleziona taglia</option>
-                        <option value="xs">XS</option>
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                        <option value="xxl">XXL</option>
+                </div>
+                <div>
+                    <div class="mb-2">
+                        <span>Categoria post</span>
+                    </div>
+                    <select class="form-control" name="category_id">
+                        <option>Seleziona categoria</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
                     </select>
-                    <input type="text" name="size" class="form-control" placeholder="Taglia">
-                </div> --}}
-                <div class="form-group">
+                </div>
+                <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Salva post</button>
                 </div>
             </form>
