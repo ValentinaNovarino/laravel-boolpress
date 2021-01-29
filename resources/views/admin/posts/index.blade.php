@@ -29,9 +29,13 @@
                                 <a class="btn btn-info btn-sm" href="{{ route('admin.posts.show', ['post' => $post->id]) }}">
                                     Visualizza
                                 </a>
+                            </td>
+                            <td>
                                 <a class="btn btn-warning btn-sm" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}">
                                     Modifica
                                 </a>
+                            </td>
+                            <td>
                                 <form class="d-inline" action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" method="post">
                                     @csrf
                                     @method('DELETE')

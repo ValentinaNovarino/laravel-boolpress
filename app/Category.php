@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     public function posts() {
-       return $this->howMany('App\Post');
-    }   
+        return $this->hasMany('App\Post');
+    }
 }
