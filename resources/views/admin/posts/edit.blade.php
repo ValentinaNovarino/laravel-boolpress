@@ -21,13 +21,25 @@
                         <span>Categoria post</span>
                     </div>
                     <select class="form-control" name="category_id">
-                        <option>Seleziona categoria</option>
+                        <option value="">-- seleziona categoria --</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ $category->id == $post->category_id ? 'selected=selected' : '' }} ">
+                            <option value="{{ $category->id }}" {{ $category->id == $post->category_id ? 'selected=selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach
                     </select>
+                </div>
+                <div class="form-groupe">
+                    <span>Seleziona i tag:</span>
+                    @foreach ($tags as $tag)
+                        <div class="form-check">
+                            <input name="tags[]" class="form-check-input" type="checkbox" value="{{ $tag->id }}"
+                            {{ $post->tags->contains($tag) ? 'checked=checked' : '' }}>
+                            <label class="form-check-label">
+                                {{ $tag->name }}
+                            </label>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Salva post</button>

@@ -100,7 +100,8 @@ class PostController extends Controller
 
         $data = [
             'post' => $post,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'tags' => Tag::all()
         ];
 
         return view('admin.posts.edit', $data);
@@ -117,7 +118,7 @@ class PostController extends Controller
     {
         $data = $request->all();
         // controllo che il titolo ricevuto dal form sia diverso dal vecchio titolo
-        if($form_data['title'] != $post->title) {
+        if($data['title'] != $post->title) {
             $slug = Str::slug($new_post->title);
             $slug_base = $slug;
             $counter = 1;
@@ -130,6 +131,7 @@ class PostController extends Controller
             $new_post->slug = $slug;
         }
         $post->update($data);
+        $post->tags()->sync($data['tags']);
 
         return redirect()->route('admin.posts.index');
     }
@@ -142,6 +144,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->syncs([]);
         $post->delete();
 
         return redirect()->route('admin.posts.index');
