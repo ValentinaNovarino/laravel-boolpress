@@ -28,6 +28,17 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <p class="mt-3">Inserisci i tag:</p>
+                    @foreach ($tags as $tag)
+                        <div class="form-check">
+                            <input name="tags[]" class="form-check-input" type="checkbox" value="{{ $tag->id }}">
+                            <label class="form-check-label">
+                                {{ $tag->name }}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
                 <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Salva post</button>
                 </div>
