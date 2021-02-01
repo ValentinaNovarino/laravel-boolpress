@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\User;
 
 class CheckApiToken
 {
@@ -15,6 +16,24 @@ class CheckApiToken
      */
     public function handle($request, Closure $next)
     {
+        $auth_token = $request->header('authorization');
+        // verifico token di autorizzazione
+        if(empty($auth_token)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'API token mancante'
+            ]);
+        }
+        // estraggo il token
+        $api_token = substr($auth_token, 7);
+        // verifico che sia corretto
+        $user = User::where('api_token', $api_token)->first();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'error' => 'API token errato'
+            ]);
+        }
         return $next($request);
     }
 }
