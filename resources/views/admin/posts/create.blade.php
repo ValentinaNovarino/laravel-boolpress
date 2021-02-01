@@ -9,11 +9,17 @@
                 @csrf
                 <div class="form-group">
                     <label>Titolo</label>
-                    <input type="text" name="title" class="form-control" placeholder="Inserisci titolo">
+                    <input type="text" name="title" class="form-control" placeholder="Inserisci titolo" value="{{ old('title') }}">
+                    @error('title')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label>Testo post</label>
-                    <input type="text" name="content" class="form-control" placeholder="Scrivi qualcosa qui...">
+                    <textarea name="content" class="form-control" rows="10" placeholder="Inizia a scrivere qualcosa..." required>{{ old('content') }}</textarea>
+                    @error('content')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div>
                     <div class="mb-2">
@@ -22,22 +28,28 @@
                     <select class="form-control" name="category_id">
                         <option>Seleziona categoria</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected=selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach
                     </select>
+                    @error('category_id')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <p class="mt-3">Inserisci i tag:</p>
                     @foreach ($tags as $tag)
                         <div class="form-check">
-                            <input name="tags[]" class="form-check-input" type="checkbox" value="{{ $tag->id }}">
+                            <input name="tags[]" class="form-check-input" type="checkbox" value="{{ $tag->id }} {{ in_array($tag->id, old('tags', [])) ? 'checked=checked' : '' }}">
                             <label class="form-check-label">
                                 {{ $tag->name }}
                             </label>
                         </div>
                     @endforeach
+                    @error('tags')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Salva post</button>

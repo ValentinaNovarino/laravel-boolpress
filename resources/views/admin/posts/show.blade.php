@@ -17,10 +17,20 @@
                 <span class="d-block">{{ $post->slug }}</span>
                 <span class="text-uppercase d-block">Contenuto</span>
                 <span class="d-block">{{ $post->content }}</span>
+                <span class="text-uppercase d-block">Categoria</span>
+                <span class="d-block">{{ $post->category ? $post->category->name : '-' }}</span>
+                <span class="text-uppercase d-block">Tag</span>
+                <span class="d-block">
+                    @forelse ($post->tags as $tag)
+                        {{ $tag->name }}{{ !$loop->last ? ',' : '' }}
+                    @empty
+                        -
+                    @endforelse
+                </span>
             </div>
-            <div>
+            <div class="mt-4">
                 <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}"
-                class="btn btn-warning">Modifica</a>
+                class="btn btn-warning mr-3">Modifica</a>
                 <form class="d-inline" action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" method="post">
                     @csrf
                     @method('DELETE')

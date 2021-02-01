@@ -48,6 +48,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+            'category_id' => 'nullable|exists:categories, id',
+            'tags' => 'exists;tags, id'
+        ]);
+
         $data = $request->all();
         $new_post = new Post();
         $new_post->fill($data);
@@ -62,7 +69,9 @@ class PostController extends Controller
         }
         $new_post->slug = $slug;
         $new_post->save();
-        $new_post->tags()->sync($data['tags']);
+        if(array_key_exists('tags', $data)) {
+            $post->tags()->sync($data['tags']);
+        }
 
         return redirect()->route('admin.posts.index');
     }
@@ -116,6 +125,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+            'category_id' => 'nullable|exists:categories, id',
+            'tags' => 'exists;tags, id'
+        ]);
+        
         $data = $request->all();
         // controllo che il titolo ricevuto dal form sia diverso dal vecchio titolo
         if($data['title'] != $post->title) {
@@ -131,7 +147,10 @@ class PostController extends Controller
             $new_post->slug = $slug;
         }
         $post->update($data);
-        $post->tags()->sync($data['tags']);
+
+        if(array_key_exists('tags', $data)) {
+            $post->tags()->sync($data['tags']);
+        }
 
         return redirect()->route('admin.posts.index');
     }
@@ -144,7 +163,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->tags()->syncs([]);
+        $post->tags()->sync([]);
         $post->delete();
 
         return redirect()->route('admin.posts.index');
