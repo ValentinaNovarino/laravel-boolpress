@@ -15,5 +15,9 @@ class HomeController extends Controller
     {
         return view('guest.home');
     }
+    public function contact()
+    {
+        return view('guest.contact');
+    }
 
 }
