@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/contact', 'HomeController@contact')->name('contact');
+Route::post('/contact', 'HomeController@contactSent')->name('contact.sent');
+Route::get('/thankyou', 'HomeController@thankYou')->name('contact.thankyou');
 Route::get('/posts', 'PostController@index')->name('posts.index');
 Route::get('/posts/{slug}', 'PostController@show')->name('posts.show');
 Route::get('/categories/{slug}', 'CategoryController@show')->name('categories.show');

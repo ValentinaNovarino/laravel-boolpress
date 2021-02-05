@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Lead;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MessageFromContact;
 
 class HomeController extends Controller
 {
@@ -15,9 +18,24 @@ class HomeController extends Controller
     {
         return view('guest.home');
     }
+
     public function contact()
     {
         return view('guest.contact');
     }
 
+    public function contactSent(Request $request)
+    {
+        $form_data = $request->all();
+        $new_lead = new Lead();
+        $new_lead->fill($form_data);
+        $new_lead->save();
+        Mail::to('info@boolpress.com')->send(new MessageFromContact());
+        return redirect()->route('contact.thankyou');
+    }
+
+    public function thankYou()
+    {
+        return view('guest.thankyou');
+    }
 }
