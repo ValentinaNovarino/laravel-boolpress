@@ -15,6 +15,14 @@
                 <span class="d-block">{{ $post->title }}</span>
                 <span class="text-uppercase d-block">Slug</span>
                 <span class="d-block">{{ $post->slug }}</span>
+                <span class="text-uppercase d-block">Immagine di copertina</span>
+                <div>
+                    @if($post->cover)
+                        <img src="{{ asset('storage/' . $post->cover) }}" alt="{{ $post->title }}">
+                    @else
+                        <p>copertina non presente</p>
+                    @endif
+                </div>
                 <span class="text-uppercase d-block">Contenuto</span>
                 <span class="d-block">{{ $post->content }}</span>
                 <span class="text-uppercase d-block">Categoria</span>

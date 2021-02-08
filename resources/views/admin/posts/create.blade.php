@@ -5,13 +5,20 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <h1>Crea nuovo post</h1>
-            <form method="POST" action="{{ route('admin.posts.store') }}">
+            <form method="POST" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label>Titolo</label>
                     <input type="text" name="title" class="form-control" placeholder="Inserisci titolo" value="{{ old('title') }}">
                     @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label>Immagine di copertina</label>
+                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" name="image">
+                    @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
